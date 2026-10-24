@@ -8,6 +8,7 @@ Warm charcoal, cherry accents, cream text, and CommitMono for Ghostty, Herdr, an
 
 - The complete Ghostty configuration, including its 16-colour palette and Command-key forwarding.
 - Matching Herdr colours, pane layout settings, and workspace/tab/pane shortcuts.
+- Shortcuts and installation instructions for Herdr Bar, TTT, Reviewr, and Annotate.
 - A Pi theme with neutral tool panels and mint success indicators.
 - A Pi extension that shows the session name and a compact active-subagent badge, such as `3 👾`, in Herdr.
 - CommitMono 1.143, with regular, italic, bold, and bold italic fonts and the upstream OFL licence.
@@ -23,6 +24,8 @@ git clone https://github.com/michaelasper/theme.git
 cd theme
 python3 scripts/install.py
 ```
+
+Plugin binaries are separate; follow the [plugin installation guide](docs/plugins.md) to enable their shortcuts.
 
 The command above only previews destinations. Read the plan, then run:
 
@@ -58,6 +61,7 @@ The docs use the [Diátaxis](https://diataxis.fr/) approach, with each page serv
 - [Reference](docs/reference.md): files, colours, dependencies, and metadata contracts.
 - [Keybinding reference](docs/keybindings.md): actions and their exact shortcuts.
 - [Explanation](docs/explanation.md): why the palette and integrations work this way.
+- [Optional plugins](docs/plugins.md): install the command bar, editor, review, and annotation tools.
 
 ## Validation
 

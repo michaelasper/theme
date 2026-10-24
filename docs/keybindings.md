@@ -21,6 +21,10 @@ On macOS, Command = ⌘, Option = ⌥, Shift = ⇧. These are direct Herdr actio
 
 The config does not add direct destructive close-workspace or close-tab shortcuts.
 
+## Plugin shortcuts
+
+Command+K opens Herdr Bar, Command+E opens TTT, and Command+R toggles Reviewr. Annotate uses prefix chords. See the [plugin guide](plugins.md#open-a-plugin) for the complete mapping and installation requirements.
+
 ## Prefix shortcuts
 
 Ctrl+B enters Herdr's prefix mode. The following actions retain the Herdr 0.9.5 defaults; they are not duplicated in the file.

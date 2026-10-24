@@ -45,7 +45,11 @@ def main():
     assert ghostty['font-family'] == 'CommitMono'
     assert ghostty['background'] == herdr['theme']['custom']['panel_bg']
     assert ghostty['foreground'] == theme['vars']['text']
-    for action, chord in herdr['keys'].items():
+    action_bindings = [(action, chord) for action, chord in herdr['keys'].items() if isinstance(chord, str)]
+    for command in herdr['keys'].get('command', []):
+        keys = command['key'] if isinstance(command['key'], list) else [command['key']]
+        action_bindings.extend((command['command'], key) for key in keys)
+    for action, chord in action_bindings:
         if not chord.startswith('cmd+'):
             continue
         chords = [chord.replace('1..9', str(n)) for n in range(1, 10)] if '1..9' in chord else [chord]
