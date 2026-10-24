@@ -6,6 +6,10 @@ Pi's automatic terminal theme adapts ANSI colours to interface roles. That produ
 
 CommitMono was chosen after comparing Iosevka Term, JetBrains Mono, and Monaspace Neon at 14 pt. The repository preserves the selected font rather than installing every experiment.
 
+## Why each pane has its own outline
+
+Shared dividers are compact, but a highlighted divider touches two panes and can make focus ambiguous. Separate outlines and outer borders give the focused pane a complete bright blush frame. Inactive outlines stay muted. Herdr also renders the focused pane's border label in bold when a label is present. This uses more terminal cells than shared splitters, in exchange for clearer keyboard navigation.
+
 ## Why there are two shortcut configurations
 
 Ghostty owns the macOS keyboard shortcuts before Herdr sees terminal input. Merely binding Command+D in Herdr is insufficient if Ghostty consumes it to split its own window.

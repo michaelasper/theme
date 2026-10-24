@@ -11,7 +11,9 @@ sidebar_bg = "#2d272a"
 active_row_bg = "#514047"
 selection_bg = "#704555"
 text = "#faf3ea"
-accent = "#f29aaa"
+# Focused pane borders use accent; inactive borders use overlay0.
+accent = "#ffd0d8"
+overlay0 = "#82717a"
 red = "#ff7885"
 green = "#a9c68b"
 
@@ -51,9 +53,10 @@ sidebar_max_width = 32
 sidebar_collapsed_mode = "compact"
 prompt_new_tab_name = false
 confirm_close = true
-pane_borders = "auto"
-pane_outer_borders = false
-pane_gaps = false
+# Separate outlines prevent a shared divider from implying two focused panes.
+pane_borders = "always"
+pane_outer_borders = true
+pane_gaps = true
 show_agent_labels_on_pane_borders = true
 status_indicators = "symbols"
 window_title = "{workspace}: {tab}"

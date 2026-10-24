@@ -33,7 +33,9 @@ These are the source machine's versions, not a tested compatibility range. The f
 | Terminal / Herdr background | `#352f32` |
 | Foreground | `#faf3ea` |
 | Herdr sidebar | `#2d272a` |
-| Cherry accent / cursor | `#f29aaa` |
+| Ghostty cursor / Pi border accent | `#f29aaa` |
+| Herdr accent / focused pane outline | `#ffd0d8` |
+| Herdr inactive pane outline | `#82717a` |
 | Selection | `#704555` |
 | Pi neutral tool panel | `#3c3539` |
 | Pi mint success | `#a4d2c2` |
@@ -49,7 +51,7 @@ Ghostty's minimum contrast is 5. Its ANSI green remains `#a9c68b`; Pi's mint ove
 - New panes inherit the source working directory.
 - New tabs do not prompt for a name.
 - Workspace close confirmation remains enabled.
-- Pane borders use auto mode; outer borders and gaps are disabled.
+- Pane borders are always visible, with outer borders and separate pane outlines enabled. Focused outlines use bright blush; inactive outlines use muted mauve.
 - Agent state indicators use symbols; in-app toasts remain enabled; sounds are disabled.
 - Per-pane scrollback limit: 10,000,000 bytes.
 

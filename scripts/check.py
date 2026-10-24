@@ -60,6 +60,10 @@ def main():
             candidates = [value for trigger, value in bindings.items()
                           if set(trigger.split('+')) == {p.replace('cmd', 'super') for p in parts}]
             assert candidates == [expected], f'Forwarding mismatch: {action} / {expanded}'
+    assert herdr['ui']['pane_borders'] == 'always'
+    assert herdr['ui']['pane_outer_borders'] is True
+    assert herdr['ui']['pane_gaps'] is True
+    assert herdr['theme']['custom']['accent'] != herdr['theme']['custom']['overlay0']
     assert herdr['ui']['sidebar']['agents']['rows_by_agent']['pi'][0] == ['state_icon', '$session_name', '$subagents']
     for line in (ROOT / 'fonts/CommitMono/SHA256SUMS').read_text().splitlines():
         digest, name = line.split()
