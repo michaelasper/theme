@@ -1,0 +1,75 @@
+onboarding = false
+
+# Dr Pepper: cola-dark backgrounds, cherry accents, cream text.
+[theme]
+name = "dracula"
+auto_switch = false
+
+[theme.custom]
+panel_bg = "#352f32"
+sidebar_bg = "#2d272a"
+active_row_bg = "#514047"
+selection_bg = "#704555"
+text = "#faf3ea"
+accent = "#f29aaa"
+red = "#ff7885"
+green = "#a9c68b"
+
+[terminal]
+new_cwd = "follow"
+shell_mode = "auto"
+
+[keys]
+# Ctrl+B remains the prefix for help, settings, rename, detach, etc.
+prefix = "ctrl+b"
+split_vertical = "cmd+d"
+split_horizontal = "cmd+shift+d"
+focus_pane_left = "cmd+alt+left"
+focus_pane_down = "cmd+alt+down"
+focus_pane_up = "cmd+alt+up"
+focus_pane_right = "cmd+alt+right"
+resize_pane_left = "cmd+alt+shift+left"
+resize_pane_down = "cmd+alt+shift+down"
+resize_pane_up = "cmd+alt+shift+up"
+resize_pane_right = "cmd+alt+shift+right"
+zoom = "cmd+shift+enter"
+new_tab = "cmd+t"
+close_pane = "cmd+w"
+# Keep whole-tab/workspace closing on the prefix to avoid accidents.
+previous_tab = "cmd+shift+left"
+next_tab = "cmd+shift+right"
+switch_tab = "cmd+1..9"
+new_workspace = "cmd+shift+n"
+workspace_picker = "cmd+p"
+toggle_sidebar = "cmd+b"
+# Leave Ctrl+C/Z/D and Cmd+C/V untouched.
+
+[ui]
+sidebar_width = 24
+sidebar_min_width = 18
+sidebar_max_width = 32
+sidebar_collapsed_mode = "compact"
+prompt_new_tab_name = false
+confirm_close = true
+pane_borders = "auto"
+pane_outer_borders = false
+pane_gaps = false
+show_agent_labels_on_pane_borders = true
+status_indicators = "symbols"
+window_title = "{workspace}: {tab}"
+
+# Show the agent's conversation title rather than workspace/path labels.
+[ui.sidebar.agents]
+rows = [["state_icon", "terminal_title_stripped"], ["agent"]]
+
+[ui.sidebar.agents.rows_by_agent]
+pi = [["state_icon", "$session_name", "$subagents"], ["agent"]]
+
+[ui.toast]
+delivery = "herdr"
+
+[ui.sound]
+enabled = false
+
+[advanced]
+scrollback_limit_bytes = 10000000

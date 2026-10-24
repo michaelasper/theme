@@ -1,0 +1,64 @@
+# Dr Pepper dark. Matching Herdr config: ~/.config/herdr/config.toml
+background = #352f32
+foreground = #faf3ea
+cursor-color = #f29aaa
+cursor-text = #352f32
+selection-background = #704555
+selection-foreground = #fff8f0
+palette = 0=#62575d
+palette = 1=#ef7585
+palette = 2=#a9c68b
+palette = 3=#e5bb7e
+palette = 4=#9eafd5
+palette = 5=#ce9ac5
+palette = 6=#92c5bd
+palette = 7=#eae2da
+palette = 8=#c3b7bd
+palette = 9=#ff98a3
+palette = 10=#c2dfa1
+palette = 11=#f5d59c
+palette = 12=#bcccf0
+palette = 13=#e7b4dd
+palette = 14=#b1e0d6
+palette = 15=#fff4e6
+minimum-contrast = 5
+background-opacity = 1
+window-theme = dark
+font-family = CommitMono
+font-size = 14
+window-padding-x = 8
+window-padding-y = 6
+mouse-hide-while-typing = true
+confirm-close-surface = true
+
+# Forward these shortcuts to Herdr as explicit Kitty keyboard sequences.
+# These replace Ghostty's own actions in ALL Ghostty windows.
+# Cmd+N still opens a native window; Cmd+C/V, font zoom and Cmd+, stay native.
+# Reload Ghostty with Cmd+Shift+, after changing this file.
+keybind = super+d=csi:100;9u
+keybind = super+shift+d=csi:100;10u
+keybind = super+alt+left=csi:1;11D
+keybind = super+alt+down=csi:1;11B
+keybind = super+alt+up=csi:1;11A
+keybind = super+alt+right=csi:1;11C
+keybind = super+alt+shift+left=csi:1;12D
+keybind = super+alt+shift+down=csi:1;12B
+keybind = super+alt+shift+up=csi:1;12A
+keybind = super+alt+shift+right=csi:1;12C
+keybind = super+shift+enter=csi:13;10u
+keybind = super+t=csi:116;9u
+keybind = super+w=csi:119;9u
+keybind = super+shift+left=csi:1;10D
+keybind = super+shift+right=csi:1;10C
+keybind = super+shift+n=csi:110;10u
+keybind = super+p=csi:112;9u
+keybind = super+b=csi:98;9u
+keybind = super+1=csi:49;9u
+keybind = super+2=csi:50;9u
+keybind = super+3=csi:51;9u
+keybind = super+4=csi:52;9u
+keybind = super+5=csi:53;9u
+keybind = super+6=csi:54;9u
+keybind = super+7=csi:55;9u
+keybind = super+8=csi:56;9u
+keybind = super+9=csi:57;9u
