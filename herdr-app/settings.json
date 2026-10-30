@@ -1,0 +1,9 @@
+{
+  "theme": "dr-pepper",
+  "font": "CommitMono",
+  "font_size": 14,
+  "sounds": {
+    "enabled": false
+  },
+  "minimum_contrast": 1.0
+}

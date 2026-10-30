@@ -1,74 +1,46 @@
 #!/usr/bin/env python3
-"""Offline structural checks, not a substitute for terminal rendering tests."""
+"""Offline structural checks, not a substitute for rendering in Herdr."""
 import hashlib
 import json
 from pathlib import Path
 import re
-import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
+HEX = re.compile(r'#[0-9a-fA-F]{6}')
+ACTION = re.compile(r'^[a-z_]+\.[a-z_]+(:[\w]+)?$')
 
 
 def main():
-    herdr = tomllib.loads((ROOT / 'herdr/config.toml').read_text())
-    theme = json.loads((ROOT / 'pi/themes/dr-pepper.json').read_text())
-    assert theme['name'] == 'dr-pepper'
+    pi = json.loads((ROOT / 'pi/themes/dr-pepper.json').read_text())
+    assert pi['name'] == 'dr-pepper'
     assert json.loads((ROOT / 'pi/settings.example.json').read_text()) == {'theme': 'dr-pepper'}
-    variables = theme['vars']
-    for colour in [*theme['colors'].values(), *theme['export'].values()]:
+    variables = pi['vars']
+    for colour in [*pi['colors'].values(), *pi['export'].values()]:
         seen = set()
         while colour in variables:
             assert colour not in seen, 'Circular theme variable'
             seen.add(colour)
             colour = variables[colour]
-        assert re.fullmatch(r'#[0-9a-fA-F]{6}', colour), f'Invalid colour: {colour}'
+        assert HEX.fullmatch(colour), f'Invalid colour: {colour}'
 
-    ghostty = {}
-    bindings = {}
-    palette = {}
-    for line in (ROOT / 'ghostty/config.ghostty').read_text().splitlines():
-        if not line.strip() or line.startswith('#'):
-            continue
-        key, value = map(str.strip, line.split('=', 1))
-        if key == 'keybind':
-            chord, action = value.split('=', 1)
-            assert chord not in bindings, f'Duplicate chord: {chord}'
-            bindings[chord] = action
-        elif key == 'palette':
-            index, colour = value.split('=', 1)
-            assert int(index) not in palette
-            palette[int(index)] = colour
-        else:
-            assert key not in ghostty
-            ghostty[key] = value
-    assert set(palette) == set(range(16))
-    assert ghostty['font-family'] == 'CommitMono'
-    assert ghostty['background'] == herdr['theme']['custom']['panel_bg']
-    assert ghostty['foreground'] == theme['vars']['text']
-    action_bindings = [(action, chord) for action, chord in herdr['keys'].items() if isinstance(chord, str)]
-    for command in herdr['keys'].get('command', []):
-        keys = command['key'] if isinstance(command['key'], list) else [command['key']]
-        action_bindings.extend((command['command'], key) for key in keys)
-    for action, chord in action_bindings:
-        if not chord.startswith('cmd+'):
-            continue
-        chords = [chord.replace('1..9', str(n)) for n in range(1, 10)] if '1..9' in chord else [chord]
-        for expanded in chords:
-            parts = expanded.split('+')
-            key = parts[-1]
-            mods = set(parts[:-1])
-            modifier = 1 + sum({'cmd': 8, 'shift': 1, 'alt': 2}[m] for m in mods)
-            arrow = {'up': 'A', 'down': 'B', 'right': 'C', 'left': 'D'}.get(key)
-            code = 13 if key == 'enter' else ord(key) if len(key) == 1 else None
-            expected = f'csi:1;{modifier}{arrow}' if arrow else f'csi:{code};{modifier}u'
-            candidates = [value for trigger, value in bindings.items()
-                          if set(trigger.split('+')) == {p.replace('cmd', 'super') for p in parts}]
-            assert candidates == [expected], f'Forwarding mismatch: {action} / {expanded}'
-    assert herdr['ui']['pane_borders'] == 'always'
-    assert herdr['ui']['pane_outer_borders'] is True
-    assert herdr['ui']['pane_gaps'] is True
-    assert herdr['theme']['custom']['accent'] != herdr['theme']['custom']['overlay0']
-    assert herdr['ui']['sidebar']['agents']['rows_by_agent']['pi'][0] == ['state_icon', '$session_name', '$subagents']
+    theme = json.loads((ROOT / 'herdr-app/themes/dr-pepper.json').read_text())
+    for key in ('background', 'foreground', 'selection', 'cursor'):
+        assert HEX.fullmatch(theme[key]), key
+    assert len(theme['ansi']) == 16 and all(HEX.fullmatch(c) for c in theme['ansi'])
+    assert all(HEX.fullmatch(c) for c in theme['colors'].values())
+    assert theme['foreground'] == pi['vars']['text']
+    assert theme['colors']['accent'] != theme['colors']['muted']
+    assert theme['colors']['surface'] == theme['background']
+
+    settings = json.loads((ROOT / 'herdr-app/settings.json').read_text())
+    assert settings['theme'] == 'dr-pepper' and settings['font'] == 'CommitMono'
+
+    keys = json.loads((ROOT / 'herdr-app/keys.json').read_text())
+    assert set(keys) == {'global'}
+    for chord, action in keys['global'].items():
+        assert re.fullmatch(r'(cmd|ctrl|alt|shift)(-(cmd|ctrl|alt|shift))*-[^-]+|(cmd|ctrl|alt|shift)+-?-', chord), chord
+        assert ACTION.match(action), f'Bad action: {action}'
+
     for line in (ROOT / 'fonts/CommitMono/SHA256SUMS').read_text().splitlines():
         digest, name = line.split()
         assert hashlib.sha256((ROOT / 'fonts/CommitMono' / name).read_bytes()).hexdigest() == digest
@@ -77,7 +49,7 @@ def main():
         for link in re.findall(r'\]\(([^)]+)\)', doc.read_text()):
             if '://' not in link and not link.startswith('#'):
                 assert (doc.parent / link.split('#')[0]).exists(), f'Broken link in {doc}: {link}'
-    print('Configs, colour references, shortcut forwarding, font hashes, and doc links: OK')
+    print('Themes, settings, shortcuts, font hashes, and doc links: OK')
 
 
 if __name__ == '__main__':

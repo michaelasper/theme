@@ -1,23 +1,21 @@
 # Dr Pepper terminal theme
 
-Warm charcoal, cherry accents, cream text, and CommitMono for Ghostty, Herdr, and Pi.
+Warm charcoal, cherry accents, cream text, and CommitMono for the Herdr app and Pi.
 
 [Get started](docs/tutorial.md) · [Customise](docs/how-to.md) · [Keybindings](docs/keybindings.md) · [Reference](docs/reference.md)
 
 ## What's included
 
-- The complete Ghostty configuration, including its 16-colour palette and Command-key forwarding.
-- Matching Herdr colours, pane layout settings, and workspace/tab/pane shortcuts.
-- Shortcuts and installation instructions for Herdr Bar, TTT, Reviewr, and Annotate.
+- A Herdr app theme (`herdr-app/themes/dr-pepper.json`) with the 16-colour terminal palette and interface colours.
+- Herdr app settings (font, sounds) and shortcuts, merged into your existing files.
 - A Pi theme with neutral tool panels and mint success indicators.
-- A Pi extension that shows the session name and a compact active-subagent badge, such as `3 👾`, in Herdr.
 - CommitMono 1.143, with regular, italic, bold, and bold italic fonts and the upstream OFL licence.
 
-This is a macOS setup for running Pi inside Herdr inside Ghostty. It is a snapshot of a personal configuration, not a standalone terminal application.
+This is a macOS setup for running Pi inside the [Herdr app](https://herdr.dev), which draws its own window and no longer needs Ghostty. It is a snapshot of a personal configuration, not a standalone terminal application.
 
 ## Install
 
-Requires Ghostty, Herdr, Pi, and Python 3.11+. The optional count badge also requires `pi-subagents`.
+Requires the Herdr app, Pi, and Python 3.11+.
 
 ```sh
 git clone https://github.com/michaelasper/theme.git
@@ -25,17 +23,15 @@ cd theme
 python3 scripts/install.py
 ```
 
-Plugin binaries are separate; follow the [plugin installation guide](docs/plugins.md) to enable their shortcuts.
-
 The command above only previews destinations. Read the plan, then run:
 
 ```sh
 python3 scripts/install.py --apply
 ```
 
-**The installer replaces Ghostty and Herdr configurations after backing them up.** It merges only the theme selection into Pi's existing settings. For an existing customised setup, use the [selective installation guide](docs/how-to.md#install-only-the-colours) instead.
+The installer **merges** into `~/.config/herdr-app/settings.json` and `keys.json` (or `$HERDR_APP_HOME`) and Pi's `settings.json`, keeping unrelated entries, and copies the themes and fonts. Everything it touches is backed up first.
 
-Reload Ghostty with **Command+Shift+,**, run `herdr server reload-config`, and run `/reload` in each Pi session. Select `dr-pepper` in Pi's `/settings` if the current session retains its old theme.
+Herdr reloads its files when they are saved. Run `/reload` in each Pi session, and select `dr-pepper` in Pi's `/settings` if the current session retains its old theme.
 
 ## Daily use
 
@@ -44,13 +40,11 @@ Reload Ghostty with **Command+Shift+,**, run `herdr server reload-config`, and r
 | Command+D | Split side by side |
 | Command+Shift+D | Split top/bottom |
 | Command+Option+arrows | Focus a pane |
-| Command+Option+Shift+arrows | Resize a pane |
 | Command+Shift+Enter | Zoom the current pane |
-| Command+P | Pick a workspace |
+| Command+W | Close the pane |
+| Command+P | Pick a space |
 
-These shortcuts act on Herdr, not Ghostty. The forwarding applies to **all Ghostty windows**, including ones without Herdr. Copy/paste, native new-window, font-size controls, and native settings remain unchanged.
-
-The [complete keybinding reference](docs/keybindings.md) covers tabs, workspaces, prefix actions, and the forwarding protocol.
+The [complete keybinding reference](docs/keybindings.md) covers tabs, spaces, and what this setup leaves at Herdr's defaults.
 
 ## Documentation
 
@@ -60,8 +54,7 @@ The docs use the [Diátaxis](https://diataxis.fr/) approach, with each page serv
 - [How-to guides](docs/how-to.md): customise, restore backups, or fix missing names and badges.
 - [Reference](docs/reference.md): files, colours, dependencies, and metadata contracts.
 - [Keybinding reference](docs/keybindings.md): actions and their exact shortcuts.
-- [Explanation](docs/explanation.md): why the palette and integrations work this way.
-- [Optional plugins](docs/plugins.md): install the command bar, editor, review, and annotation tools.
+- [Explanation](docs/explanation.md): why the palette and layers work this way.
 
 ## Validation
 

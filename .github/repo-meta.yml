@@ -1,8 +1,7 @@
-description: Dr Pepper-inspired Ghostty, Herdr, and Pi configs with CommitMono, macOS keybindings, and compact subagent counts.
+description: Dr Pepper-inspired Herdr app and Pi themes with CommitMono and macOS keybindings.
 topics:
-  - ghostty
+  - herdr
   - terminal-theme
   - dotfiles
-  - herdr
   - commitmono
   - macos

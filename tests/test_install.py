@@ -2,9 +2,11 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 SPEC = importlib.util.spec_from_file_location('installer', Path(__file__).resolve().parents[1] / 'scripts/install.py')
 installer = importlib.util.module_from_spec(SPEC)
@@ -16,6 +18,11 @@ class InstallTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.home = Path(self.temp.name)
+        env = mock.patch.dict(os.environ)
+        env.start()
+        self.addCleanup(env.stop)
+        os.environ.pop('HERDR_APP_HOME', None)
+        self.app = self.home / '.config/herdr-app'
 
     def run_install(self, apply):
         with contextlib.redirect_stdout(io.StringIO()):
@@ -25,33 +32,46 @@ class InstallTests(unittest.TestCase):
         self.assertIsNone(self.run_install(False))
         self.assertEqual(list(self.home.iterdir()), [])
 
-    def test_install_preserves_settings_and_backs_up(self):
-        settings = self.home / '.pi/agent/settings.json'
-        settings.parent.mkdir(parents=True)
-        original = '{"theme":"system","defaultModel":"keep-me","packages":["keep"]}'
-        settings.write_text(original)
-        ghostty = installer.plan(self.home)[0][1]
-        ghostty.parent.mkdir(parents=True)
-        ghostty.write_text('font-size = 18\n')
+    def test_install_merges_without_dropping_user_settings(self):
+        pi = self.home / '.pi/agent/settings.json'
+        pi.parent.mkdir(parents=True)
+        pi_original = '{"theme":"system","defaultModel":"keep-me"}'
+        pi.write_text(pi_original)
+        self.app.mkdir(parents=True)
+        (self.app / 'settings.json').write_text('{"zoom":1.2,"sounds":{"enabled":true,"done":"x.mp3"}}')
+        (self.app / 'keys.json').write_text('{"global":{"cmd-w":"tab.close","cmd-q":"app.quit"},"terminal":{"cmd-c":"terminal.copy"}}')
         backup = self.run_install(True)
-        config = json.loads(settings.read_text())
-        self.assertEqual(config, {'theme': 'dr-pepper', 'defaultModel': 'keep-me', 'packages': ['keep']})
-        manifest = json.loads((backup / 'manifest.json').read_text())
-        originals = {item['destination']: item['original'] for item in manifest}
-        self.assertEqual(Path(originals[str(settings)]).read_text(), original)
-        self.assertEqual(Path(originals[str(ghostty)]).read_text(), 'font-size = 18\n')
+
+        self.assertEqual(json.loads(pi.read_text()), {'theme': 'dr-pepper', 'defaultModel': 'keep-me'})
+        settings = json.loads((self.app / 'settings.json').read_text())
+        self.assertEqual(settings['zoom'], 1.2)
+        self.assertEqual(settings['theme'], 'dr-pepper')
+        self.assertEqual(settings['sounds'], {'enabled': False, 'done': 'x.mp3'})
+        keys = json.loads((self.app / 'keys.json').read_text())
+        self.assertEqual(keys['global']['cmd-w'], 'pane.close')
+        self.assertEqual(keys['global']['cmd-q'], 'app.quit')
+        self.assertEqual(keys['terminal'], {'cmd-c': 'terminal.copy'})
+
+        manifest = {m['destination']: m['original'] for m in json.loads((backup / 'manifest.json').read_text())}
+        self.assertEqual(Path(manifest[str(pi)]).read_text(), pi_original)
         for source, dest in installer.plan(self.home):
             self.assertEqual(source.read_bytes(), dest.read_bytes())
-        second = self.run_install(True)
-        self.assertNotEqual(second, backup)
+        self.assertNotEqual(self.run_install(True), backup)
 
-    def test_invalid_settings_fail_before_copying(self):
-        settings = self.home / '.pi/agent/settings.json'
-        settings.parent.mkdir(parents=True)
-        settings.write_text('[]')
+    def test_herdr_app_home_override(self):
+        other = self.home / 'elsewhere'
+        os.environ['HERDR_APP_HOME'] = str(other)
+        self.run_install(True)
+        self.assertTrue((other / 'themes/dr-pepper.json').is_file())
+        self.assertFalse(self.app.exists())
+
+    def test_invalid_json_fails_before_copying(self):
+        self.app.mkdir(parents=True)
+        (self.app / 'keys.json').write_text('[]')
         with self.assertRaises(ValueError):
             self.run_install(True)
         self.assertFalse((self.home / 'Library').exists())
+        self.assertFalse((self.app / 'themes').exists())
 
     def test_symlinks_are_refused(self):
         dest = installer.plan(self.home)[0][1]
