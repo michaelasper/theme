@@ -12,6 +12,8 @@
     "cmd-shift-6": "space.select:6",
     "cmd-shift-7": "space.select:7",
     "cmd-shift-8": "space.select:8",
-    "cmd-shift-9": "space.select:9"
+    "cmd-shift-9": "space.select:9",
+    "cmd-shift-r": "space.rename",
+    "cmd-r": "tab.rename"
   }
 }

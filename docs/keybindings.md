@@ -11,6 +11,8 @@ On macOS, Command = ⌘, Option = ⌥, Shift = ⇧. The Herdr app receives these
 | ⌘W | `pane.close` | Close the current pane (Herdr's default closes the tab) |
 | ⌘⇧← / → | `tab.prev` / `tab.next` | Previous / next tab |
 | ⌘⇧N | `space.new` | Create a space |
+| ⌘⇧R | `space.rename` | Rename the space (Shift+F2 is brightness on a Mac keyboard) |
+| ⌘R | `tab.rename` | Rename the tab (F2 is brightness too) |
 | ⌘⇧1–9 | `space.select:N` | Select a space |
 
 ## Herdr defaults this setup relies on
