@@ -32,6 +32,24 @@ def main():
     assert theme['colors']['accent'] != theme['colors']['muted']
     assert theme['colors']['surface'] == theme['background']
 
+    moshi = json.loads((ROOT / 'moshi/dr-pepper.json').read_text())
+    assert set(moshi) == {'v', 'name', 'mode', 'colors'}
+    assert type(moshi['v']) is int and moshi['v'] == 1
+    assert isinstance(moshi['name'], str) and 0 < len(moshi['name']) <= 40
+    assert moshi['mode'] == 'dark'
+    ansi_names = [
+        'black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white',
+        'brightBlack', 'brightRed', 'brightGreen', 'brightYellow',
+        'brightBlue', 'brightMagenta', 'brightCyan', 'brightWhite',
+    ]
+    expected = dict(zip(ansi_names, theme['ansi']))
+    expected.update(
+        background=theme['background'], foreground=theme['foreground'],
+        cursor=theme['cursor'], selectionBackground=theme['selection'],
+    )
+    assert moshi['colors'] == expected, 'Moshi palette must match Herdr'
+    assert all(HEX.fullmatch(c) for c in moshi['colors'].values())
+
     settings = json.loads((ROOT / 'herdr-app/settings.json').read_text())
     assert settings['theme'] == 'dr-pepper' and settings['font'] == 'CommitMono'
 

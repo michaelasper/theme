@@ -1,0 +1,27 @@
+{
+  "v": 1,
+  "name": "Dr Pepper",
+  "mode": "dark",
+  "colors": {
+    "background": "#352f32",
+    "foreground": "#faf3ea",
+    "cursor": "#f29aaa",
+    "selectionBackground": "#704555",
+    "black": "#62575d",
+    "red": "#ef7585",
+    "green": "#a9c68b",
+    "yellow": "#e5bb7e",
+    "blue": "#9eafd5",
+    "magenta": "#ce9ac5",
+    "cyan": "#92c5bd",
+    "white": "#eae2da",
+    "brightBlack": "#c3b7bd",
+    "brightRed": "#ff98a3",
+    "brightGreen": "#c2dfa1",
+    "brightYellow": "#f5d59c",
+    "brightBlue": "#bcccf0",
+    "brightMagenta": "#e7b4dd",
+    "brightCyan": "#b1e0d6",
+    "brightWhite": "#fff4e6"
+  }
+}

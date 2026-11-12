@@ -1,6 +1,6 @@
 # Dr Pepper terminal theme
 
-Warm charcoal, cherry accents, cream text, and CommitMono for the Herdr app and Pi.
+Warm charcoal, cherry accents, and cream text for the Herdr app, Pi, and Moshi, with CommitMono included for desktop use.
 
 [Get started](docs/tutorial.md) · [Customise](docs/how-to.md) · [Keybindings](docs/keybindings.md) · [Reference](docs/reference.md)
 
@@ -9,13 +9,16 @@ Warm charcoal, cherry accents, cream text, and CommitMono for the Herdr app and 
 - A Herdr app theme (`herdr-app/themes/dr-pepper.json`) with the 16-colour terminal palette and interface colours.
 - Herdr app settings (font, sounds) and shortcuts, merged into your existing files.
 - A Pi theme with neutral tool panels and mint success indicators.
+- A [Moshi theme](moshi/README.md) with the matching terminal palette and phone import instructions.
 - CommitMono 1.143, with regular, italic, bold, and bold italic fonts and the upstream OFL licence.
 
 This is a macOS setup for running Pi inside the [Herdr app](https://herdr.dev), which draws its own window and no longer needs Ghostty. It is a snapshot of a personal configuration, not a standalone terminal application.
 
 ## Install
 
-Requires the Herdr app, Pi, and Python 3.11+.
+For Moshi, follow the [phone import instructions](moshi/README.md).
+
+The desktop installer requires the Herdr app, Pi, and Python 3.11+.
 
 ```sh
 git clone https://github.com/michaelasper/theme.git
